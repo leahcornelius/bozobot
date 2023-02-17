@@ -15,8 +15,8 @@ setup(
     zip_safe=True,
     maintainer='Leah Cornelius',
     maintainer_email='leocornelius@gmail.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Core ROS2 package for the BozoBot robot, to be run on the Raspberry Pi',
+    license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [

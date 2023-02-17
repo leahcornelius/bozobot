@@ -3,9 +3,9 @@
 <package format="3">
   <name>bozobot</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Core ROS2 package for the BozoBot robot, to be run on the Raspberry Pi</description>
   <maintainer email="leocornelius@gmail.com">Leah Cornelius</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache License 2.0</license>
 
   <exec_depend>rclpy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
