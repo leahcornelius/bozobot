@@ -19,7 +19,7 @@ class TelopSubscriber(Node):
         self.declare_parameter('baudrate', 115200)
         self.declare_parameter('timeout', 0.1)
         md_logger = self.get_logger()
-        self.motor_driver = MotorDriver(self.get_parameter('port').value, self.get_parameter('baudrate').value, md_logger, self.get_parameter('timeout').value)
+        self.motor_driver = MotorDriver(self.get_parameter('port').value, self.get_parameter('baudrate').value, self, self.get_parameter('timeout').value)
         self.connection_event_publisher = self.create_publisher(String, 'connection_events', 10)
         
         if not self.motor_driver.wait_for_connection():
@@ -45,7 +45,8 @@ class TelopSubscriber(Node):
 
     def listener_callback(self, msg):        
         command = MotorDriverCommand('m', *self.mix_twist(msg))
-        self.motor_driver.set_new_command(command, 0.2)
+        self.get_logger().info('Sending command: ' + str(command)) 
+        self.motor_driver.set_new_command(command, 0.1)
 
 def main(args=None):
     rclpy.init(args=args)

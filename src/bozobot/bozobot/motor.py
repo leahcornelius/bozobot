@@ -22,7 +22,7 @@ class MotorDriverCommand():
         return "MotorDriverCommand: {} {}".format(self.command, self.args)
 
 class MotorDriver(threading.Thread):
-    def __init__(self, port, baud, logger, timeout=0.1):
+    def __init__(self, port, baud, node, timeout=0.1):
         super().__init__()
         self.motor_driver = serial.Serial(port, baud, timeout=timeout)
         self.killed = threading.Event()
@@ -42,7 +42,10 @@ class MotorDriver(threading.Thread):
         self.command_result_set = threading.Condition()
         self.command_result_code = None
         self.command_result_details = None
-        self.logger = logger
+        self.parent_node = node
+
+    def logger(self):
+        return self.parent_node.get_logger()
 
     def run(self):
         if not self.wait_for_connection():
