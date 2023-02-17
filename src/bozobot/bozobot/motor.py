@@ -44,6 +44,7 @@ class MotorDriver(threading.Thread):
         self.command_result_details = None
         self.parent_node = node
 
+    @property
     def logger(self):
         return self.parent_node.get_logger()
 
