@@ -91,7 +91,7 @@ class MotorDriver(threading.Thread):
                         self.new_command.clear()
 
                     else:
-                        self.logger.debug("MotorDriver.CommandEvent.WhileActive.OverwriteCurrentCommand: {} for {} ms (old: {}, {})".format(
+                        self.logger.debug("MotorDriver.CommandEvent.WhileActive.OverwriteCurrentCommand: {} for {} ms (old: {})".format(
                             self.command, self.command_time, self.active_command))
                         self._handle_new_command()
                 elif (self.active_command_expire.is_set()):
