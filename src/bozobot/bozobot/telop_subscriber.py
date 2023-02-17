@@ -15,7 +15,7 @@ class TelopSubscriber(Node):
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
-        self.declare_parameter('port', '/dev/ttyACM0')
+        self.declare_parameter('port', '/dev/ttyUSB0')
         self.declare_parameter('baudrate', 115200)
         self.declare_parameter('timeout', 0.1)
         md_logger = self.get_logger()
