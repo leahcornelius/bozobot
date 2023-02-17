@@ -109,7 +109,7 @@ class MotorDriver(threading.Thread):
             self._set_and_notify_result(0, "External stop")
             return
 
-        if (self.command.command == "m"):
+        elif (self.command.command == "m"):
             if (len(self.command.args) != 2):
                 self._clear_command()
                 self._set_and_notify_result(1, "Expected 2 parameters, got {}".format(
@@ -145,6 +145,13 @@ class MotorDriver(threading.Thread):
             self._clear_command()
             self._set_and_notify_result(0, "Killed")
             self.kill(wait=False)
+            return
+        else:
+            self._clear_command()
+            self.logger.error("MotorDriver.UnknownCommand: {}".format(
+                self.command.command))
+            self._set_and_notify_result(4, "Unknown command: {}".format(
+                self.command.command))
             return
 
         self.new_command.clear()

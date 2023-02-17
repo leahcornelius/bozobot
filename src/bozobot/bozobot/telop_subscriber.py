@@ -44,7 +44,7 @@ class TelopSubscriber(Node):
         return left, right
 
     def listener_callback(self, msg):        
-        command = MotorDriverCommand('set_motors', self.mix_twist(msg))
+        command = MotorDriverCommand('m', self.mix_twist(msg))
         self.motor_driver.set_new_command(command, 0.1)
 
 def main(args=None):
