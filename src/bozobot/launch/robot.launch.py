@@ -13,7 +13,7 @@ def generate_launch_description():
         Node(
             package='usb_cam',
             namespace='bozobot',
-            executable='usb_cam_node',
+            executable='usb_cam_node_exe',
             name='usb_cam_node_exe',
             parameters=[
                 {'video_device': '/dev/video0'},
