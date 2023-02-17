@@ -21,6 +21,11 @@ class MotorDriverCommand():
     def __str__(self):
         return "MotorDriverCommand: {} {}".format(self.command, self.args)
 
+    def __eq__(self, other):
+        if not isinstance(other, MotorDriverCommand):
+            return False
+        return self.command == other.command and self.args == other.args
+
 class MotorDriver(threading.Thread):
     def __init__(self, port, baud, node, timeout=0.1):
         super().__init__()
@@ -87,7 +92,7 @@ class MotorDriver(threading.Thread):
 
                     else:
                         self.logger.debug("MotorDriver.CommandEvent.WhileActive.OverwriteCurrentCommand: {} for {} ms (old: {}, {})".format(
-                            self.command, self.command_time, self.active_command, self.active_timer))
+                            self.command, self.command_time, self.active_command))
                         self._handle_new_command()
                 elif (self.active_command_expire.is_set()):
                     # The timer has expired, so we should stop the active command
@@ -104,11 +109,13 @@ class MotorDriver(threading.Thread):
             self.command_result_set.notify_all()
 
     def _handle_new_command(self):
-        self.active_command = self.command
-        if (self.active_command is None):
+
+        if (self.command is None):
             self.new_command.clear()
             self.logger.error("MotorDriver.ActiveCommandNone")
             return
+
+        self.active_command = self.command
 
         if (self.active_command.command == "s"):
             # Stop
