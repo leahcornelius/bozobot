@@ -19,7 +19,7 @@ class TelopSubscriber(Node):
         self.declare_parameter('port', '/dev/ttyUSB0')
         self.declare_parameter('baudrate', 115200)
         self.declare_parameter('timeout', 0.1)
-        md_logger = self.get_logger()
+        self.declare_parameter('command_timeout', 0.1)
         self.motor_driver = MotorDriver(self.get_parameter('port').value, self.get_parameter('baudrate').value, self, self.get_parameter('timeout').value)
         self.connection_event_publisher = self.create_publisher(String, 'connection_events', 10)
         
@@ -45,9 +45,8 @@ class TelopSubscriber(Node):
         return left, right
 
     def listener_callback(self, msg):        
-        command = MotorDriverCommand('m', *self.mix_twist(msg))
-        self.get_logger().debug('Sending command: ' + str(command)) 
-        self.motor_driver.set_new_command(command, 0.5)
+        command = MotorDriverCommand('m', *self.mix_twist(msg)) 
+        self.motor_driver.set_new_command(command, self.get_parameter('command_timeout').value)
 
 
 def main(args=None):
