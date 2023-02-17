@@ -101,24 +101,27 @@ class MotorDriver(threading.Thread):
 
     def _handle_new_command(self):
         self.active_command = self.command
+        if (self.active_command is None):
+            self.logger.error("MotorDriver.ActiveCommandNone")
+            return
 
-        if (self.command.command == "s"):
+        if (self.active_command.command == "s"):
             # Stop
             self._set_motors(0, 0)
             self._clear_command()
             self._set_and_notify_result(0, "External stop")
             return
 
-        elif (self.command.command == "m"):
-            if (len(self.command.args) != 2):
+        elif (self.active_command.command == "m"):
+            if (len(self.active_command.args) != 2):
                 self._clear_command()
                 self._set_and_notify_result(1, "Expected 2 parameters, got {}".format(
-                    len(self.command.args) ))
+                    len(self.active_command.args) ))
                 return
 
             try:
-                left = int(self.command.args[0])
-                right = int(self.command.args[1])
+                left = int(self.active_command.args[0])
+                right = int(self.active_command.args[1])
                 if (left < -255 or left > 255):
                     self._clear_command()
                     self._set_and_notify_result(3, "Left motor value out of range: {}".format(
@@ -137,11 +140,11 @@ class MotorDriver(threading.Thread):
                 self._set_and_notify_result(2, "Could not parse parameters (ValueError), error: {}".format(
                     value_error))
                 return
-        elif (self.command.command == "eb"):
+        elif (self.active_command.command == "eb"):
             # Enable brake
             self._enable_brake()
 
-        elif (self.command.command == "kill"):
+        elif (self.active_command.command == "kill"):
             self._clear_command()
             self._set_and_notify_result(0, "Killed")
             self.kill(wait=False)
@@ -149,9 +152,9 @@ class MotorDriver(threading.Thread):
         else:
             self._clear_command()
             self.logger.error("MotorDriver.UnknownCommand: {}".format(
-                self.command.command))
+                self.active_command.command))
             self._set_and_notify_result(4, "Unknown command: {}".format(
-                self.command.command))
+                self.active_command.command))
             return
 
         self.new_command.clear()
