@@ -9,7 +9,7 @@ from bozobot.motor import MotorDriver, MotorDriverCommand
 class TelopSubscriber(Node):
     def __init__(self):
         super().__init__('TelopSubscriber')
-        self.get_logger().set_level(rclpy.logging.LoggingSeverity.DEBUG)
+        self.get_logger().set_level(rclpy.logging.LoggingSeverity.INFO)
         self.subscription = self.create_subscription(
             Twist,
             'cmd_vel',
