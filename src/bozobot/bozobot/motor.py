@@ -13,10 +13,10 @@ import threading
 # 6: Command not allowed in current state
 # 7: Internal error
 
-class MotorDriverCommand:
-    def __init__(self, command, *args):
+class MotorDriverCommand():
+    def __init__(self, command, *args_list):
         self.command = command
-        self.args = args
+        self.args = args_list
 
     def __str__(self):
         return "MotorDriverCommand: {} {}".format(self.command, self.args)
@@ -102,6 +102,7 @@ class MotorDriver(threading.Thread):
     def _handle_new_command(self):
         self.active_command = self.command
         if (self.active_command is None):
+            self.new_command.clear()
             self.logger.error("MotorDriver.ActiveCommandNone")
             return
 
