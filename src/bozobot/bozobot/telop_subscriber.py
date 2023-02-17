@@ -45,8 +45,7 @@ class TelopSubscriber(Node):
 
     def listener_callback(self, msg):        
         command = MotorDriverCommand('m', *self.mix_twist(msg))
-        self.get_logger().info('Received command: {}'.format(command))
-        self.motor_driver.set_new_command(command, 0.1)
+        self.motor_driver.set_new_command(command, 0.2)
 
 def main(args=None):
     rclpy.init(args=args)
