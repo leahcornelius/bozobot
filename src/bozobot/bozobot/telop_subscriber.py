@@ -13,7 +13,7 @@ class TelopSubscriber(Node):
             Twist,
             'cmd_vel',
             self.listener_callback,
-            10)
+            1)
         self.subscription  # prevent unused variable warning
         self.declare_parameter('port', '/dev/ttyUSB0')
         self.declare_parameter('baudrate', 115200)
